@@ -28,7 +28,7 @@ public class Weapon : ScriptableObject
             IDamageable damageable = col.GetComponent<IDamageable>();
             if (damageable != null && !damageable.Equals(attacker))
             {
-                damageable.Damage(damage);
+                damageable.GetDamage(damage);
             }
         }
 

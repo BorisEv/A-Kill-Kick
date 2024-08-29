@@ -93,15 +93,14 @@ public class Player : Creature
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Weapon"))
         {
-            //Debug.Log("Stay");
-        }
-        if (Input.GetKey(KeyCode.F))
-        {
-            WeaponManager weaponManager = collision.gameObject.GetComponent<WeaponManager>();
-            AddWeapon(weaponManager.weapon);
-            collision.gameObject.SetActive(false);
+            if (Input.GetKey(KeyCode.F))
+            {
+                WeaponManager weaponManager = collision.gameObject.GetComponent<WeaponManager>();
+                AddWeapon(weaponManager.weapon);
+                collision.gameObject.SetActive(false);
+            }
         }
     }
 }

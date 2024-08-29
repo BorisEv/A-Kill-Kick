@@ -20,7 +20,6 @@ public class WorldGenerator : MonoBehaviour
         WeaponSpawner.Instanse.SpawnWeapon(spearPosition, allWeapons[1]);
     }
 
-    // Update is called once per frame
     void Update()
     {
         

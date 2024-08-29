@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class Creature : MonoBehaviour, IDamageable// TODO, ICreatureController
+public abstract class Creature : MonoBehaviour, IDamageable
 {
     [SerializeField] protected float health;
 
@@ -42,7 +42,7 @@ public abstract class Creature : MonoBehaviour, IDamageable// TODO, ICreatureCon
         rb.MovePosition(rb.position + movementDirection * speed * Time.deltaTime);
     }
 
-    public void Damage(float damage)
+    public void GetDamage(float damage)
     {
         if (health - damage <= 0)
         {
