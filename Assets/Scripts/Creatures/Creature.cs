@@ -42,17 +42,48 @@ public abstract class Creature : MonoBehaviour, IDamageable
         rb.MovePosition(rb.position + movementDirection * speed * Time.deltaTime);
     }
 
-    public void GetDamage(float damage)
+    public void StartMove(Vector2 inputVector)
     {
-        if (health - damage <= 0)
+        movementDirection.x = inputVector.x;
+        movementDirection.y = inputVector.y;
+
+        if (movementDirection.x == 0 && movementDirection.y == 0)
         {
-            StartCoroutine(Die());
+            animator.SetBool(AnimationStrings.IsMoving, false);
         }
         else
         {
-            animator.SetTrigger("GetDamage");
+            animator.SetBool(AnimationStrings.IsMoving, true);
+            animator.SetFloat(AnimationStrings.MoveX, movementDirection.x);
+            animator.SetFloat(AnimationStrings.MoveY, movementDirection.y);
+            if (!isAttacking)
+            {
+                animator.SetFloat(AnimationStrings.LastMoveX, movementDirection.x);
+                animator.SetFloat(AnimationStrings.LastMoveY, movementDirection.y);
+            }
         }
-        health -= damage;
+    }
+
+    public void StartAttack(Weapon weapon)
+    {
+        weapon.Attack(animator, this);
+    }
+
+    public void GetDamage(float damage)
+    {
+        if (health > 0)
+        {
+            if (health - damage <= 0)
+            {
+                StartCoroutine(Die());
+                health = 0;
+            }
+            else
+            {
+                StartCoroutine(GetDamage());
+                health -= damage;
+            }
+        }
     }
 
     private IEnumerator Die()
@@ -60,5 +91,35 @@ public abstract class Creature : MonoBehaviour, IDamageable
         animator.SetTrigger("Die");
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
+    }
+
+    private IEnumerator GetDamage()
+    {
+        float duration = 0.2f;
+        float startTime = Time.time;
+        SpriteRenderer[] renderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
+
+        while (Time.time < startTime + (duration/2))
+        {
+            foreach (SpriteRenderer rend in renderers)
+            {
+                Color clr = rend.material.color;
+                Color newColor = new(clr.r, clr.g, clr.b, clr.a - (Time.deltaTime / (duration / 2)));
+                rend.material.SetColor("_Color", newColor);
+                
+            }
+            yield return null;
+        }
+
+        while (Time.time < startTime + (duration))
+        {
+            foreach (SpriteRenderer rend in renderers)
+            {
+                Color clr = rend.material.color;
+                Color newColor = new(clr.r, clr.g, clr.b, clr.a + (Time.deltaTime / (duration / 2)));
+                rend.material.SetColor("_Color", newColor);
+            }
+            yield return null;
+        }
     }
 }

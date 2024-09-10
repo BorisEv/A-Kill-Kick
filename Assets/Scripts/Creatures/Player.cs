@@ -15,33 +15,6 @@ public class Player : Creature
         uiInventory.SetWeapon(myWeapons.Count - 1, weapon.sprite);
     }
 
-    public void StartMove(Vector2 inputVector)
-    {
-        movementDirection.x = inputVector.x; 
-        movementDirection.y = inputVector.y; 
-
-        if (movementDirection.x == 0 && movementDirection.y == 0)
-        {
-            animator.SetBool(AnimationStrings.IsMooving, false);
-        }
-        else
-        {
-            animator.SetBool(AnimationStrings.IsMooving, true);
-            animator.SetFloat(AnimationStrings.MoveX, movementDirection.x);
-            animator.SetFloat(AnimationStrings.MoveY, movementDirection.y);
-            if (!isAttacking)
-            {
-                animator.SetFloat(AnimationStrings.LastMoveX, movementDirection.x);
-                animator.SetFloat(AnimationStrings.LastMoveY, movementDirection.y);
-            }
-        }
-    }
-
-    public void StartAttack(Weapon weapon)
-    {
-        weapon.Attack(animator, this);
-    }
-
     void Start()
     {
         BottomHintTextMesh.enabled = false;
