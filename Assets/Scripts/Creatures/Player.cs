@@ -39,7 +39,7 @@ public class Player : Creature
                 if (myWeapons.Count > 1)
                 {
                     StartAttack(myWeapons[1]);
-                }     
+                }
             }
         }
     }

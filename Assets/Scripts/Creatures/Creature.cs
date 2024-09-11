@@ -36,10 +36,8 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        isAttacking = !animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")
-            && !animator.GetCurrentAnimatorStateInfo(0).IsName("Move");
-        //TODO when the weapon attack animation will be on different layer - we can simple the line above to "Attack" state
-        rb.MovePosition(rb.position + movementDirection * speed * Time.deltaTime);
+        isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+        rb.MovePosition(rb.position + speed * Time.deltaTime * movementDirection);
     }
 
     public void StartMove(Vector2 inputVector)
@@ -96,17 +94,19 @@ public abstract class Creature : MonoBehaviour, IDamageable
     private IEnumerator GetDamage()
     {
         float duration = 0.2f;
-        float startTime = Time.time;
+        float startTime;
         SpriteRenderer[] renderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
 
-        while (Time.time < startTime + (duration/2))
+
+        startTime = Time.time;
+        while (Time.time < startTime + (duration / 2))
         {
             foreach (SpriteRenderer rend in renderers)
             {
                 Color clr = rend.material.color;
-                Color newColor = new(clr.r, clr.g, clr.b, clr.a - (Time.deltaTime / (duration / 2)));
+                Color newColor = new(clr.r, clr.g, clr.b, 1 - (Time.time - startTime) / (duration / 2));
                 rend.material.SetColor("_Color", newColor);
-                
+
             }
             yield return null;
         }
@@ -116,7 +116,7 @@ public abstract class Creature : MonoBehaviour, IDamageable
             foreach (SpriteRenderer rend in renderers)
             {
                 Color clr = rend.material.color;
-                Color newColor = new(clr.r, clr.g, clr.b, clr.a + (Time.deltaTime / (duration / 2)));
+                Color newColor = new(clr.r, clr.g, clr.b, ((Time.time - startTime) - (duration / 2)) / (duration / 2));
                 rend.material.SetColor("_Color", newColor);
             }
             yield return null;
