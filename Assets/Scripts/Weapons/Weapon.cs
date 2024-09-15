@@ -20,7 +20,6 @@ public class Weapon : ScriptableObject
         animator.SetTrigger(AnimationStrings.Attack);
         animator.SetFloat(AnimationStrings.AttackSpeed, attackSpeed);
         animator.SetTrigger(name);
-
         Collider2D [] overlapedColliders = Physics2D.OverlapCircleAll(attacker.GetTransform().position, attackRange);
 
         foreach (Collider2D col in overlapedColliders)

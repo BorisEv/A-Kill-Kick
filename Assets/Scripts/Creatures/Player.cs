@@ -15,7 +15,7 @@ public class Player : Creature
         uiInventory.SetWeapon(myWeapons.Count - 1, weapon.sprite);
     }
 
-    void Start()
+    protected override void Start()
     {
         BottomHintTextMesh.enabled = false;
     }

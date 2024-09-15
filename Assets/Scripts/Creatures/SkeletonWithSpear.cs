@@ -8,35 +8,39 @@ using UnityEngine;
 
 public class SkeletonWithSpear : Creature
 {
-    private float aggroRange = 5;
-    
+    public Transform playerTransform;
+
+    private float aggroRange = 6;
+    private bool inAggroRange;
+    private bool inSpearAttackRange;
+    private Vector2 inputVector;
+
     protected override void Update()
     {
         if(health > 0)
         {
+            inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
+            inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange + 1;
+
             if (!isAttacking)
             {
-                Vector2 inputVector = new(0, 0);
-                Collider2D[] overlapedAggroRangeColliders = Physics2D.OverlapCircleAll(GetTransform().position, aggroRange);
-                foreach (Collider2D col in overlapedAggroRangeColliders)
+                if (inSpearAttackRange)
                 {
-                    if (col.CompareTag("Player"))
-                    {
-                        inputVector = col.transform.position - GetTransform().position;
-                    }
+                    isAttacking = true;
+                    myWeapons[0].Attack(animator, this);
+                    inputVector = new Vector2(0, 0);
                 }
-
-                Collider2D[] overlapedAttackRangeColliders = Physics2D.OverlapCircleAll(GetTransform().position, myWeapons[0].attackRange + 0.2f);
-                foreach (Collider2D col in overlapedAttackRangeColliders)
+                else if (inAggroRange)
                 {
-                    if (col.CompareTag("Player"))
-                    {
-                        myWeapons[0].Attack(animator, this);
-                        inputVector = new(0, 0);
-                    }
+                    inputVector = playerTransform.position - GetTransform().position;
                 }
-                StartMove(inputVector);
+                else
+                {
+                    inputVector = new Vector2(0, 0);
+                }
             }
+
+            StartMove(inputVector);
         }
         else
         {

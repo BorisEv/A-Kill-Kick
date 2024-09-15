@@ -29,6 +29,11 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
     }
 
+    protected virtual void Start()
+    {
+
+    }
+
     protected virtual void Update()
     {
 

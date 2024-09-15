@@ -14,24 +14,24 @@ public class WeaponSpawner : MonoBehaviour
         Instanse = this;
     }
 
-    public void SpawnWeapon(Vector2 spawnPos, Weapon weapon)
+    public void SpawnWeapon(Vector2 spawnPos, string weaponName)
     {
         GameObject a;
-        switch (weapon.name)
+        switch (weaponName)
         {
-            case "Sword":
+            case WeaponNames.Sword:
                 {
                     a = Instantiate(pfSword);
                     break;
                 }
-            case "Spear":
+            case WeaponNames.Spear:
                 {
                     a = Instantiate(pfSpear);
                     break;
                 }
             default:
                 {
-                    a = Instantiate(pfSword);
+                    a = null;
                     break;
                 }
         }
