@@ -24,28 +24,36 @@ public class SkeletonBoss : Creature
             inSwordAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange;
             inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[1].attackRange + 1;
 
-            if (!isAttacking)
+            if (inSwordAttackRange)
             {
-                if (inSwordAttackRange)
+                if (!isAttacking)
                 {
                     isAttacking = true;
                     myWeapons[0].Attack(animator, this);
-                    inputVector = playerTransform.position - GetTransform().position;
                 }
-                else if (inSpearAttackRange)
+                
+                inputVector = playerTransform.position - GetTransform().position;
+            }
+            else if (inSpearAttackRange)
+            {
+                if (!isAttacking)
                 {
                     isAttacking = true;
                     myWeapons[1].Attack(animator, this);
-                    inputVector = GetTransform().position - playerTransform.position;
                 }
-                else if (inAggroRange)
+
+                inputVector = GetTransform().position - playerTransform.position;
+            }
+            else if (inAggroRange)
+            {
+                if (!isAttacking)
                 {
                     inputVector = playerTransform.position - GetTransform().position;
                 }
-                else
-                {
-                    inputVector = new Vector2(0, 0);
-                }
+            }
+            else
+            {
+                inputVector = new Vector2(0, 0);
             }
 
             StartMove(inputVector);
@@ -54,7 +62,6 @@ public class SkeletonBoss : Creature
         {
             StartMove(new(0,0));
         }
-
     }
 }
 

@@ -22,22 +22,22 @@ public class SkeletonWithSpear : Creature
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
             inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange + 1;
 
-            if (!isAttacking)
+            if (inSpearAttackRange)
             {
-                if (inSpearAttackRange)
-                {
+                if(!isAttacking) {
                     isAttacking = true;
                     myWeapons[0].Attack(animator, this);
-                    inputVector = new Vector2(0, 0);
                 }
-                else if (inAggroRange)
-                {
-                    inputVector = playerTransform.position - GetTransform().position;
-                }
-                else
-                {
-                    inputVector = new Vector2(0, 0);
-                }
+
+                inputVector = new Vector2(0, 0);
+            }
+            else if (inAggroRange)
+            {
+                inputVector = playerTransform.position - GetTransform().position;
+            }
+            else
+            {
+                inputVector = new Vector2(0, 0);
             }
 
             StartMove(inputVector);

@@ -23,6 +23,8 @@ public class Player : Creature
     protected override void Update()
     {
         Vector2 inputVector = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+
         StartMove(inputVector);
 
         if (!isAttacking)

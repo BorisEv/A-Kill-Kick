@@ -47,8 +47,9 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
     public void StartMove(Vector2 inputVector)
     {
-        movementDirection.x = inputVector.x;
-        movementDirection.y = inputVector.y;
+        movementDirection.x = inputVector.normalized.x;
+        movementDirection.y = inputVector.normalized.y;
+
 
         if (movementDirection.x == 0 && movementDirection.y == 0)
         {
