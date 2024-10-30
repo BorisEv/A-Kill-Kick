@@ -74,33 +74,36 @@ public abstract class Creature : MonoBehaviour, IDamageable
         }
     }
 
-    public void Attack(Weapon weapon)
+    public void MeleeAttack(MeleeWeapon meleeWeapon)
     {
         animator.SetTrigger(AnimationStrings.Attack);
-        animator.SetFloat(AnimationStrings.AttackSpeed, weapon.attackSpeed);
-        animator.SetTrigger(weapon.name);
-        
-        if (weapon is MeleeWeapon meleeWeapon)
-        {
-            Collider2D[] overlapedColliders = Physics2D.OverlapCircleAll(transform.position, meleeWeapon.attackRange);
+        animator.SetFloat(AnimationStrings.AttackSpeed, meleeWeapon.attackSpeed);
+        animator.SetTrigger(meleeWeapon.name);
 
-            foreach (Collider2D col in overlapedColliders)
-            {
-                IDamageable damageable = col.GetComponent<IDamageable>();
-                if (damageable != null && !damageable.Equals(this))
-                {
-                    damageable.GetDamage(meleeWeapon.damage);
-                }
-            }
-        } else if (weapon is RangeWeapon rangeWeapon)
+        Collider2D[] overlapedColliders = Physics2D.OverlapCircleAll(transform.position, meleeWeapon.attackRange);
+
+        foreach (Collider2D col in overlapedColliders)
         {
-            GameObject projectileObj = Instantiate(rangeWeapon.pfProjectile, transform);
-            projectileObj.transform.position = transform.position;
-            Projectile projectile = projectileObj.GetComponent<Projectile>();
-            projectile.damage = weapon.damage;
-            //projectile.target = target;
-            projectile.attacker = this;
+            IDamageable damageable = col.GetComponent<IDamageable>();
+            if (damageable != null && !damageable.Equals(this))
+            {
+                damageable.GetDamage(meleeWeapon.damage);
+            }
         }
+    }
+
+    public void RangeAttack(RangeWeapon rangeWeapon, Vector2 target)
+    {
+        animator.SetTrigger(AnimationStrings.Attack);
+        animator.SetFloat(AnimationStrings.AttackSpeed, rangeWeapon.attackSpeed);
+        animator.SetTrigger(rangeWeapon.name);
+
+        GameObject projectileObj = Instantiate(rangeWeapon.pfProjectile);
+        projectileObj.transform.position = transform.position;
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        projectile.damage = rangeWeapon.damage;
+        projectile.target = target;
+        projectile.attacker = this;
     }
 
 

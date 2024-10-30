@@ -33,14 +33,29 @@ public class Player : Creature
             {
                 if (myWeapons.Count > 0)
                 {
-                    Attack(myWeapons[0]);
+                    if (myWeapons[0] is MeleeWeapon meleeWeapon)
+                    {
+                        MeleeAttack(meleeWeapon);
+                    }
+                    else if (myWeapons[0] is RangeWeapon rangeWeapon)
+                    {
+                        RangeAttack(rangeWeapon, Vector2.zero);
+                    }
+                    
                 }
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (myWeapons.Count > 1)
                 {
-                    Attack(myWeapons[1]);
+                    if (myWeapons[1] is MeleeWeapon meleeWeapon)
+                    {
+                        MeleeAttack(meleeWeapon);
+                    }
+                    else if (myWeapons[1] is RangeWeapon rangeWeapon)
+                    {
+                        RangeAttack(rangeWeapon, Vector2.zero);
+                    }
                 }
             }
         }

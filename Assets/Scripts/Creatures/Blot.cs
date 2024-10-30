@@ -24,7 +24,7 @@ public class Blot : Creature
                 if(!isAttacking)
                 {
                     isAttacking = true;
-                    Attack(myWeapons[0]);
+                    RangeAttack((RangeWeapon)myWeapons[0], playerTransform.position);
                 }
             }
             else if (inAggroRange)

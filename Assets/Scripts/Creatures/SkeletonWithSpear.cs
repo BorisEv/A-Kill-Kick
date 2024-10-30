@@ -26,7 +26,7 @@ public class SkeletonWithSpear : Creature
             {
                 if(!isAttacking) {
                     isAttacking = true;
-                    Attack(myWeapons[0]);
+                    MeleeAttack((MeleeWeapon)myWeapons[0]);
                 }
 
                 movementVector = new Vector2(0, 0);

@@ -8,9 +8,11 @@ using UnityEngine;
 public abstract class Projectile : MonoBehaviour
 {
     public float damage; // ATTACK
-    public Transform target;  // can be creature, can be point? only in range projectiles?
+    public float speed;
+    public Vector3 target;  // can be creature, can be point? only in range projectiles?
     public Creature attacker;
 
+    protected Vector3 movementDirection;
     public Collider2D hitBox;
 
     protected virtual void Awake()
@@ -30,7 +32,7 @@ public abstract class Projectile : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-
+        transform.position = transform.position + speed * Time.deltaTime * movementDirection;
     }
 
 
@@ -48,8 +50,9 @@ public abstract class Projectile : MonoBehaviour
             if (damageable != null && !damageable.Equals(attacker))
             {
                 damageable.GetDamage(damage);
+                Destroy(gameObject);
             }
-        }
+        }     
     }
 }
 

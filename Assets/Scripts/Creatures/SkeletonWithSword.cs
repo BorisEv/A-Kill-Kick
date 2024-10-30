@@ -28,7 +28,7 @@ public class SkeletonWithSword : Creature
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    Attack(myWeapons[0]);
+                    MeleeAttack((MeleeWeapon)myWeapons[0]);
                 }
                 movementVector = playerTransform.position - GetTransform().position;
             }
@@ -38,7 +38,7 @@ public class SkeletonWithSword : Creature
             }
             else
             {
-                movementVector = new Vector2(0, 0);
+                movementVector = Vector2.zero;
             }
 
             StartMove(movementVector);
