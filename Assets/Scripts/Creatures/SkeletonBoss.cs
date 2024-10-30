@@ -14,49 +14,49 @@ public class SkeletonBoss : Creature
     private bool inAggroRange;
     private bool inSwordAttackRange;
     private bool inSpearAttackRange;
-    private Vector2 inputVector;
+    private Vector2 movementVector;
     
     protected override void Update()
     {
         if(health > 0)
         {
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
-            inSwordAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange;
-            inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[1].attackRange + 1;
+            inSwordAttackRange = (GetTransform().position - playerTransform.position).magnitude < ((MeleeWeapon)myWeapons[0]).attackRange;
+            inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < ((MeleeWeapon)myWeapons[1]).attackRange + 1;
 
             if (inSwordAttackRange)
             {
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    myWeapons[0].Attack(animator, this);
+                    Attack(myWeapons[0]);
                 }
                 
-                inputVector = playerTransform.position - GetTransform().position;
+                movementVector = playerTransform.position - GetTransform().position;
             }
             else if (inSpearAttackRange)
             {
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    myWeapons[1].Attack(animator, this);
+                    Attack(myWeapons[1]);
                 }
 
-                inputVector = GetTransform().position - playerTransform.position;
+                movementVector = Vector2.zero;
             }
             else if (inAggroRange)
             {
                 if (!isAttacking)
                 {
-                    inputVector = playerTransform.position - GetTransform().position;
+                    movementVector = playerTransform.position - GetTransform().position;
                 }
             }
             else
             {
-                inputVector = new Vector2(0, 0);
+                movementVector = Vector2.zero;
             }
 
-            StartMove(inputVector);
+            StartMove(movementVector);
         }
         else
         {

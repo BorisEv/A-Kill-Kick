@@ -13,34 +13,34 @@ public class SkeletonWithSpear : Creature
     private float aggroRange = 6;
     private bool inAggroRange;
     private bool inSpearAttackRange;
-    private Vector2 inputVector;
+    private Vector2 movementVector;
 
     protected override void Update()
     {
         if(health > 0)
         {
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
-            inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange + 1;
+            inSpearAttackRange = (GetTransform().position - playerTransform.position).magnitude < ((MeleeWeapon)myWeapons[0]).attackRange + 1;
 
             if (inSpearAttackRange)
             {
                 if(!isAttacking) {
                     isAttacking = true;
-                    myWeapons[0].Attack(animator, this);
+                    Attack(myWeapons[0]);
                 }
 
-                inputVector = new Vector2(0, 0);
+                movementVector = new Vector2(0, 0);
             }
             else if (inAggroRange)
             {
-                inputVector = playerTransform.position - GetTransform().position;
+                movementVector = playerTransform.position - GetTransform().position;
             }
             else
             {
-                inputVector = new Vector2(0, 0);
+                movementVector = new Vector2(0, 0);
             }
 
-            StartMove(inputVector);
+            StartMove(movementVector);
         }
         else
         {

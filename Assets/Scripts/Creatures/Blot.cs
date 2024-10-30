@@ -9,34 +9,34 @@ public class Blot : Creature
     private float aggroRange = 5;
     private bool inAggroRange;
     private bool inFireAttackRange;
-    private Vector2 inputVector;
+    private Vector2 movementVector;
 
     protected override void Update()
     {
         if (health > 0)
         {
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
-            inFireAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange;
+            inFireAttackRange = (GetTransform().position - playerTransform.position).magnitude < 2; //myWeapons[0].attackRange;
 
             if (inFireAttackRange)
             {
-                inputVector = new Vector2((playerTransform.position - GetTransform().position).y, -(playerTransform.position - GetTransform().position).x);
+                movementVector = new Vector2((playerTransform.position - GetTransform().position).y, -(playerTransform.position - GetTransform().position).x);
                 if(!isAttacking)
                 {
                     isAttacking = true;
-                    myWeapons[0].Attack(animator, this);
+                    Attack(myWeapons[0]);
                 }
             }
             else if (inAggroRange)
             {
-                inputVector = playerTransform.position - GetTransform().position;
+                movementVector = playerTransform.position - GetTransform().position;
             }
             else
             {
-                inputVector = new Vector2(0, 0);
+                movementVector = new Vector2(0, 0);
             }
 
-            StartMove(inputVector);
+            StartMove(movementVector);
         }
         else
         {

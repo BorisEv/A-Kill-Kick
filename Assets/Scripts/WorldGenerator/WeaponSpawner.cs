@@ -22,6 +22,7 @@ public class WeaponSpawner : MonoBehaviour
             case WeaponNames.Sword:
                 {
                     a = Instantiate(pfSword);
+                    
                     break;
                 }
             case WeaponNames.Spear:

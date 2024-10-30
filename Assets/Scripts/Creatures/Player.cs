@@ -12,7 +12,7 @@ public class Player : Creature
     public void AddWeapon(Weapon weapon)
     {
         myWeapons.Add(weapon);
-        uiInventory.SetWeapon(myWeapons.Count - 1, weapon.sprite);
+        uiInventory.SetWeapon(myWeapons.Count - 1, weapon.inventorySprite);
     }
 
     protected override void Start()
@@ -33,14 +33,14 @@ public class Player : Creature
             {
                 if (myWeapons.Count > 0)
                 {
-                    StartAttack(myWeapons[0]);
+                    Attack(myWeapons[0]);
                 }
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (myWeapons.Count > 1)
                 {
-                    StartAttack(myWeapons[1]);
+                    Attack(myWeapons[1]);
                 }
             }
         }

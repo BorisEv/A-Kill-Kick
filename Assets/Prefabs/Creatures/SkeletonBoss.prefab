@@ -188,6 +188,6 @@ MonoBehaviour:
   rb: {fileID: 4707088294090754202}
   animator: {fileID: 7700315786335422114}
   myWeapons:
-  - {fileID: 11400000, guid: 19e29823051b41d4990ac9e83c89fb50, type: 2}
-  - {fileID: 11400000, guid: dee74c586df3dd143b814fac886b1d3d, type: 2}
+  - {fileID: 11400000, guid: 2378b4b6399b9834c8e38de4e8dedf02, type: 2}
+  - {fileID: 11400000, guid: 537734633108391488d044d01d4f49b2, type: 2}
   playerTransform: {fileID: 0}

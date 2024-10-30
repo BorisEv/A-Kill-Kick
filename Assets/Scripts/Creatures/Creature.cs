@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -16,6 +17,7 @@ public abstract class Creature : MonoBehaviour, IDamageable
     [SerializeField] protected List<Weapon> myWeapons;    
 
     protected Vector2 movementDirection;
+    protected Vector2 lastMovementDirection;
 
     protected bool isAttacking;
 
@@ -43,12 +45,16 @@ public abstract class Creature : MonoBehaviour, IDamageable
     {
         isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
         rb.MovePosition(rb.position + speed * Time.deltaTime * movementDirection);
+        if(movementDirection != Vector2.zero)
+        {
+            lastMovementDirection = movementDirection;
+        }
     }
 
-    public void StartMove(Vector2 inputVector)
+    public void StartMove(Vector2 movementVector)
     {
-        movementDirection.x = inputVector.normalized.x;
-        movementDirection.y = inputVector.normalized.y;
+        movementDirection.x = movementVector.normalized.x;
+        movementDirection.y = movementVector.normalized.y;
 
 
         if (movementDirection.x == 0 && movementDirection.y == 0)
@@ -68,12 +74,37 @@ public abstract class Creature : MonoBehaviour, IDamageable
         }
     }
 
-    public void StartAttack(Weapon weapon)
+    public void Attack(Weapon weapon)
     {
-        weapon.Attack(animator, this);
+        animator.SetTrigger(AnimationStrings.Attack);
+        animator.SetFloat(AnimationStrings.AttackSpeed, weapon.attackSpeed);
+        animator.SetTrigger(weapon.name);
+        
+        if (weapon is MeleeWeapon meleeWeapon)
+        {
+            Collider2D[] overlapedColliders = Physics2D.OverlapCircleAll(transform.position, meleeWeapon.attackRange);
+
+            foreach (Collider2D col in overlapedColliders)
+            {
+                IDamageable damageable = col.GetComponent<IDamageable>();
+                if (damageable != null && !damageable.Equals(this))
+                {
+                    damageable.GetDamage(meleeWeapon.damage);
+                }
+            }
+        } else if (weapon is RangeWeapon rangeWeapon)
+        {
+            GameObject projectileObj = Instantiate(rangeWeapon.pfProjectile, transform);
+            projectileObj.transform.position = transform.position;
+            Projectile projectile = projectileObj.GetComponent<Projectile>();
+            projectile.damage = weapon.damage;
+            //projectile.target = target;
+            projectile.attacker = this;
+        }
     }
 
-    public void GetDamage(float damage)
+
+    public void GetDamage(float damage) // GetAttacked
     {
         if (health > 0)
         {
@@ -101,7 +132,7 @@ public abstract class Creature : MonoBehaviour, IDamageable
     {
         float duration = 0.2f;
         float startTime;
-        SpriteRenderer[] renderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] renderers = gameObject.GetComponents<SpriteRenderer>();
 
 
         startTime = Time.time;

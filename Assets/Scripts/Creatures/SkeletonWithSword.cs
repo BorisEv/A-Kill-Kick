@@ -13,34 +13,35 @@ public class SkeletonWithSword : Creature
     private float aggroRange = 4;
     private bool inAggroRange;
     private bool inSwordAttackRange;
-    private Vector2 inputVector;
+    private Vector2 movementVector;
+
 
     protected override void Update()
     {
         if(health > 0)
         {
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
-            inSwordAttackRange = (GetTransform().position - playerTransform.position).magnitude < myWeapons[0].attackRange;
+            inSwordAttackRange = (GetTransform().position - playerTransform.position).magnitude < ((MeleeWeapon)myWeapons[0]).attackRange;
 
             if (inSwordAttackRange)
             {
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    myWeapons[0].Attack(animator, this);
+                    Attack(myWeapons[0]);
                 }
-                inputVector = playerTransform.position - GetTransform().position;
+                movementVector = playerTransform.position - GetTransform().position;
             }
             else if (inAggroRange)
             {
-                inputVector = playerTransform.position - GetTransform().position;
+                movementVector = playerTransform.position - GetTransform().position;
             }
             else
             {
-                inputVector = new Vector2(0, 0);
+                movementVector = new Vector2(0, 0);
             }
 
-            StartMove(inputVector);
+            StartMove(movementVector);
         }
         else
         {
