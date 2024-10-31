@@ -6,7 +6,8 @@ public class Blot : Creature
 {
     public Transform playerTransform;
 
-    private float aggroRange = 5;
+    private float aggroRange = 10;
+    private float circleRange = 8;
     private bool inAggroRange;
     private bool inFireAttackRange;
     private Vector2 movementVector;
@@ -16,7 +17,7 @@ public class Blot : Creature
         if (health > 0)
         {
             inAggroRange = (GetTransform().position - playerTransform.position).magnitude < aggroRange;
-            inFireAttackRange = (GetTransform().position - playerTransform.position).magnitude < 2; //myWeapons[0].attackRange;
+            inFireAttackRange = (GetTransform().position - playerTransform.position).magnitude < circleRange;
 
             if (inFireAttackRange)
             {

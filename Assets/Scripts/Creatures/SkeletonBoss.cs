@@ -39,7 +39,7 @@ public class SkeletonBoss : Creature
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    MeleeAttack((MeleeWeapon)myWeapons[0]);
+                    MeleeAttack((MeleeWeapon)myWeapons[1]);
                 }
 
                 movementVector = Vector2.zero;
@@ -60,7 +60,7 @@ public class SkeletonBoss : Creature
         }
         else
         {
-            StartMove(new(0,0));
+            StartMove(Vector2.zero);
         }
     }
 }

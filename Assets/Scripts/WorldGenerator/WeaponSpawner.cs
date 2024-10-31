@@ -6,6 +6,7 @@ public class WeaponSpawner : MonoBehaviour
 {
     public GameObject pfSword;
     public GameObject pfSpear;
+    public GameObject pfFire;
 
     public static WeaponSpawner Instanse {  get; private set; }
 
@@ -16,26 +17,31 @@ public class WeaponSpawner : MonoBehaviour
 
     public void SpawnWeapon(Vector2 spawnPos, string weaponName)
     {
-        GameObject a;
+        GameObject weaponObject;
         switch (weaponName)
         {
             case WeaponNames.Sword:
                 {
-                    a = Instantiate(pfSword);
+                    weaponObject = Instantiate(pfSword);
                     
                     break;
                 }
             case WeaponNames.Spear:
                 {
-                    a = Instantiate(pfSpear);
+                    weaponObject = Instantiate(pfSpear);
+                    break;
+                }
+            case WeaponNames.Fire:
+                {
+                    weaponObject = Instantiate(pfFire);
                     break;
                 }
             default:
                 {
-                    a = null;
+                    weaponObject = null;
                     break;
                 }
         }
-        a.transform.position = spawnPos;
+        weaponObject.transform.position = spawnPos;
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -126,6 +125,7 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
     private IEnumerator Die()
     {
+        GetComponent<Collider2D>().enabled = false;
         animator.SetTrigger("Die");
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);

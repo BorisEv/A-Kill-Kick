@@ -10,6 +10,7 @@ public class FireProjectile : Projectile
     protected override void Start()
     {
         base.Start();
+
         movementDirection = (target - transform.position).normalized;
 
         float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;

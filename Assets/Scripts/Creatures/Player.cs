@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : Creature
 {
     [SerializeField] private UIInventory uiInventory;
-    [SerializeField] private TextMeshProUGUI BottomHintTextMesh;
+    [SerializeField] private TextMeshProUGUI bottomHintTextMesh;
+    public Camera camera;
 
     public void AddWeapon(Weapon weapon)
     {
@@ -17,13 +19,13 @@ public class Player : Creature
 
     protected override void Start()
     {
-        BottomHintTextMesh.enabled = false;
+        bottomHintTextMesh.enabled = false;
     }
 
     protected override void Update()
     {
         Vector2 inputVector = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
+        Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camera.nearClipPlane));
 
         StartMove(inputVector);
 
@@ -39,7 +41,8 @@ public class Player : Creature
                     }
                     else if (myWeapons[0] is RangeWeapon rangeWeapon)
                     {
-                        RangeAttack(rangeWeapon, Vector2.zero);
+                        
+                        RangeAttack(rangeWeapon, mousePosition);
                     }
                     
                 }
@@ -54,7 +57,7 @@ public class Player : Creature
                     }
                     else if (myWeapons[1] is RangeWeapon rangeWeapon)
                     {
-                        RangeAttack(rangeWeapon, Vector2.zero);
+                        RangeAttack(rangeWeapon, mousePosition);
                     }
                 }
             }
@@ -65,9 +68,9 @@ public class Player : Creature
     {
         if (collision.CompareTag("Weapon"))
         {
-            BottomHintTextMesh.enabled = true;
+            bottomHintTextMesh.enabled = true;
             WeaponManager weaponManager = collision.gameObject.GetComponent<WeaponManager>();
-            BottomHintTextMesh.text = $@"Press ""F"" to pick up the {weaponManager.weapon.name}";
+            bottomHintTextMesh.text = $@"Press ""F"" to pick up the {weaponManager.weapon.name}";
         }
 
     }
@@ -76,7 +79,7 @@ public class Player : Creature
     {
         if (collision.CompareTag("Weapon"))
         {
-            BottomHintTextMesh.enabled = false;
+            bottomHintTextMesh.enabled = false;
         }
         
     }

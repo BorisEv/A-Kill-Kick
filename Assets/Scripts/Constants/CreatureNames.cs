@@ -10,4 +10,5 @@ public static class CreatureNames
     public const string SkeletonWithSword = "SkeletonWithSword";
     public const string SkeletonWithSpear = "SkeletonWithSpear";
     public const string SkeletonBoss = "SkeletonBoss";
+    public const string Blot = "Blot";
 }

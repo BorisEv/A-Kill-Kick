@@ -8,6 +8,7 @@ public class CreatureSpawner : MonoBehaviour
     public GameObject pfSkeletonWithSword;
     public GameObject pfSkeletonWithSpear;
     public GameObject pfSkeletonBoss;
+    public GameObject pfBlot;
     public Transform playerTransform;
 
     public static CreatureSpawner Instanse { get; private set; }
@@ -18,36 +19,44 @@ public class CreatureSpawner : MonoBehaviour
     }
     public void SpawnCreature(Vector2 spawnPos, string creatureName)
     {
-        GameObject a;
+        GameObject creatureObject;
         switch (creatureName)
         {
             case CreatureNames.SkeletonWithSword:
                 {
-                    a = Instantiate(pfSkeletonWithSword);
-                    SkeletonWithSword skeleton = a.GetComponent<SkeletonWithSword>();
+                    creatureObject = Instantiate(pfSkeletonWithSword);
+                    SkeletonWithSword skeleton = creatureObject.GetComponent<SkeletonWithSword>();
                     skeleton.playerTransform = playerTransform;
                     break;
                 }
             case CreatureNames.SkeletonWithSpear:
                 {
-                    a = Instantiate(pfSkeletonWithSpear);
-                    SkeletonWithSpear skeleton = a.GetComponent<SkeletonWithSpear>();
+                    creatureObject = Instantiate(pfSkeletonWithSpear);
+                    SkeletonWithSpear skeleton = creatureObject.GetComponent<SkeletonWithSpear>();
                     skeleton.playerTransform = playerTransform;
                     break;
                 }
             case CreatureNames.SkeletonBoss:
                 {
-                    a = Instantiate(pfSkeletonBoss);
-                    SkeletonBoss skeleton = a.GetComponent<SkeletonBoss>();
+                    creatureObject = Instantiate(pfSkeletonBoss);
+                    SkeletonBoss skeleton = creatureObject.GetComponent<SkeletonBoss>();
                     skeleton.playerTransform = playerTransform;
+                    break;
+                }
+
+            case CreatureNames.Blot:
+                {
+                    creatureObject = Instantiate(pfBlot);
+                    Blot blot = creatureObject.GetComponent<Blot>();
+                    blot.playerTransform = playerTransform;
                     break;
                 }
             default:
                 {
-                    a = null;
+                    creatureObject = null;
                     break;
                 }
         }
-        a.transform.position = spawnPos;
+        creatureObject.transform.position = spawnPos;
     }
 }
