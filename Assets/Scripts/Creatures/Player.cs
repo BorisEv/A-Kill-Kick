@@ -9,7 +9,7 @@ public class Player : Creature
 {
     [SerializeField] private UIInventory uiInventory;
     [SerializeField] private TextMeshProUGUI bottomHintTextMesh;
-    public Camera camera;
+    public Camera cam;
 
     public void AddWeapon(Weapon weapon)
     {
@@ -25,7 +25,7 @@ public class Player : Creature
     protected override void Update()
     {
         Vector2 inputVector = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camera.nearClipPlane));
+        Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane));
 
         StartMove(inputVector);
 
@@ -92,7 +92,7 @@ public class Player : Creature
             {
                 WeaponManager weaponManager = collision.gameObject.GetComponent<WeaponManager>();
                 AddWeapon(weaponManager.weapon);
-                collision.gameObject.SetActive(false);
+                Destroy(collision.gameObject);
             }
         }
     }

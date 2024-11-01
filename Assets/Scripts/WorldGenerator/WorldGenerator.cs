@@ -26,7 +26,7 @@ public class WorldGenerator : MonoBehaviour
         Vector2 skeletonWithSwordPosition = new(15, 15);
         Vector2 skeletonWithSpearPosition = new(10, 10);
         Vector2 skeletonBossPosition = new(12, 12);
-        Vector2 blotPosition = new(-10, 0);
+        Vector2 blotPosition = new(-15, 0);
 
         CreatureSpawner.Instanse.SpawnCreature(skeletonWithSwordPosition, CreatureNames.SkeletonWithSword);
         CreatureSpawner.Instanse.SpawnCreature(skeletonWithSpearPosition, CreatureNames.SkeletonWithSpear);

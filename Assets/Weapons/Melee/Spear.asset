@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18abead7a16a2a4a9f7c0e452488aea, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  damage: 0
-  attackRange: 0
-  attackSpeed: 0
-  inventorySprite: {fileID: 0}
-  pfProjectile: {fileID: 0}
+  damage: 5
+  attackSpeed: 1
+  inventorySprite: {fileID: 1896218576, guid: c4633dddfdd4ac14c87a32fe26c765a4, type: 3}
+  attackRange: 2

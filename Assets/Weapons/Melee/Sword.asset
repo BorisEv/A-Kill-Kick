@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18abead7a16a2a4a9f7c0e452488aea, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  damage: 0
-  attackRange: 0
-  attackSpeed: 0
-  inventorySprite: {fileID: 0}
-  pfProjectile: {fileID: 0}
+  damage: 2
+  attackSpeed: 3
+  inventorySprite: {fileID: 1551645111, guid: d5079671001b9144082e73c9165055f6, type: 3}
+  attackRange: 1

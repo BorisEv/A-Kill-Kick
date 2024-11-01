@@ -7,10 +7,10 @@ public class UIInventory : MonoBehaviour
 {
     public List<Image> weaponsImages = new();
 
-    public Sprite sword;
     public void SetWeapon(int weaponNumber, Sprite weapon)
     {
         weaponsImages[weaponNumber].sprite = weapon;
+        weaponsImages[weaponNumber].SetNativeSize();
         weaponsImages[weaponNumber].enabled = true;
     }
 
