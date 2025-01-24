@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class Creature : MonoBehaviour, IDamageable
+public abstract class Creature : MonoBehaviour, IAttackable
 {
     [SerializeField] protected float health;
 
@@ -83,10 +83,10 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
         foreach (Collider2D col in overlapedColliders)
         {
-            IDamageable damageable = col.GetComponent<IDamageable>();
-            if (damageable != null && !damageable.Equals(this))
+            IAttackable attackable = col.GetComponent<IAttackable>();
+            if (attackable != null && !attackable.Equals(this))
             {
-                damageable.GetDamage(meleeWeapon.damage);
+                attackable.GetAttacked(meleeWeapon.attack);
             }
         }
     }
@@ -100,27 +100,35 @@ public abstract class Creature : MonoBehaviour, IDamageable
         GameObject projectileObj = Instantiate(rangeWeapon.pfProjectile);
         projectileObj.transform.position = transform.position;
         Projectile projectile = projectileObj.GetComponent<Projectile>();
-        projectile.damage = rangeWeapon.damage;
+        projectile.attack = rangeWeapon.attack;
         projectile.target = target;
         projectile.attacker = this;
     }
 
 
-    public void GetDamage(float damage) // GetAttacked
+    public void GetAttacked(Attack attack)
     {
+        // GetDamage
+        float fullDamage = 0;
+        foreach (Damage damage in attack.damage)
+        {
+            fullDamage += damage.power; // TODO resistances here
+        }
         if (health > 0)
         {
-            if (health - damage <= 0)
+            if (health - fullDamage <= 0)
             {
                 StartCoroutine(Die());
                 health = 0;
             }
             else
             {
-                StartCoroutine(GetDamage());
-                health -= damage;
+                StartCoroutine(GetDamageAnimation());
+                health -= fullDamage;
             }
         }
+
+        // Get status effects TODO
     }
 
     private IEnumerator Die()
@@ -131,7 +139,7 @@ public abstract class Creature : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    private IEnumerator GetDamage()
+    private IEnumerator GetDamageAnimation()
     {
         float duration = 0.2f;
         float startTime;

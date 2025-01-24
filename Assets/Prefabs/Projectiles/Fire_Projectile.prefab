@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   speed: 4
+  lifetime: 5
   target: {x: 0, y: 0, z: 0}
   attacker: {fileID: 0}
   hitBox: {fileID: 0}

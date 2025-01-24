@@ -9,7 +9,7 @@ using UnityEngine.Windows;
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon")]
 public abstract class Weapon : ScriptableObject
 {
-    public float damage;
+    public Attack attack;
     public float attackSpeed; //cooldown?
     public Sprite inventorySprite;
 }

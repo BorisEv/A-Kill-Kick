@@ -7,8 +7,9 @@ using UnityEngine;
 
 public abstract class Projectile : MonoBehaviour
 {
-    public float damage; // ATTACK
+    public Attack attack;
     public float speed;
+    public float lifetime;
     public Vector3 target;  // can be creature, can be point? only in range projectiles?
     public Creature attacker;
 
@@ -23,6 +24,7 @@ public abstract class Projectile : MonoBehaviour
     protected virtual void Start()
     {
         hitBox = GetComponent<Collider2D>();
+        Destroy(gameObject, lifetime);
     }
 
     protected virtual void Update()
@@ -46,10 +48,10 @@ public abstract class Projectile : MonoBehaviour
 
         foreach (Collider2D col in overlapedColliders)
         {
-            IDamageable damageable = col.GetComponent<IDamageable>();
-            if (damageable != null && !damageable.Equals(attacker))
+            IAttackable attackable = col.GetComponent<IAttackable>();
+            if (attackable != null && !attackable.Equals(attacker))
             {
-                damageable.GetDamage(damage);
+                attackable.GetAttacked(attack);
                 Destroy(gameObject);
             }
         }     
